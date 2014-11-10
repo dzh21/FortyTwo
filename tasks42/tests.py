@@ -6,7 +6,7 @@ from django.utils import timezone
 class MainViewTest(TestCase):
     fixtures = ['initial_data.json']
 
-    def test_root_url_for_contacts(self):
+    def test_root_url(self):
         response = self.client.get('/')
         self.assertEquals(response.status_code, 200)
 
