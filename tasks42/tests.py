@@ -1,4 +1,6 @@
 from django.test import TestCase
+from tasks42.models import RequestObject
+from django.utils import timezone
 
 
 class MainViewTest(TestCase):
