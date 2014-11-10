@@ -12,7 +12,10 @@ class MainViewTest(TestCase):
             name="Evhen",
             surname="Davliud",
             date_of_birth=date(1983, 7, 21),
-            bio="I was born in Lubetch Chernigov region Ukraine. In 1995 moved to Belarus. In 2001-2006 studied in The Belarusian State University of Informatics and Radioelectronics.",
+            bio="I was born in Lubetch Chernigov region Ukraine. "
+                "In 1995 moved to Belarus. In 2001-2006 studied in "
+                "The Belarusian State University of Informatics and "
+                "Radioelectronics.",
             email="dzh21@tut.by",
             jabber="dzh@default.rs",
             skype="dzha21",
@@ -28,6 +31,10 @@ class MainViewTest(TestCase):
 
         persons_in_context = response.context['persons']
 
+        # only one Person object in context
+        self.assertEquals(len(persons_in_context), 1)
+
+        # Person object in context
         self.assertEquals(persons_in_context[0].name, self.me.name)
         self.assertEquals(persons_in_context[0].surname, self.me.surname)
         self.assertEquals(
@@ -43,6 +50,7 @@ class MainViewTest(TestCase):
             self.me.other_contacts
         )
 
+        # Person object in content
         self.assertIn(self.me.name, response.content)
         self.assertIn(self.me.surname, response.content)
         self.assertIn(
