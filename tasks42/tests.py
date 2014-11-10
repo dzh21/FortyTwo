@@ -1,10 +1,4 @@
 from django.test import TestCase
-<<<<<<< HEAD
-from tasks42.models import Person, RequestObject
-from datetime import date
-from django.utils import timezone
-=======
->>>>>>> t1_contact
 
 
 class MainViewTest(TestCase):
