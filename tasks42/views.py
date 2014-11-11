@@ -10,3 +10,8 @@ def index(request):
 def requests(request):
     context = {'requests': list(RequestObject.objects.all())[:10]}
     return render(request, "requests.html", context)
+
+
+def editcontacts(request):
+    context = {}
+    return render(request, "editcontacts.html", context)

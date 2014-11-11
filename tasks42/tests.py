@@ -73,3 +73,14 @@ class RequestsViewTest(TestCase):
             .strftime('%Y-%m-%d %H:%M:%S'), self.response.content)
         self.assertIn(timezone.localtime(requests_in_db[9].event_date_time)
             .strftime('%Y-%m-%d %H:%M:%S'), self.response.content)
+
+
+class EditContactsViewTest(TestCase):
+
+    def setUp(self):
+        self.response = self.client.get('/editcontacts/')
+
+    def test_exist_and_using_template(self):
+        self.assertEquals(self.response.status_code, 200)
+
+        self.assertTemplateUsed(self.response, 'editcontacts.html')
