@@ -6,44 +6,35 @@ from django.utils import timezone
 class MainViewTest(TestCase):
     fixtures = ['initial_data.json']
 
-<<<<<<< HEAD
-    def test_root_url(self):
-        response = self.client.get('/')
-        self.assertEquals(response.status_code, 200)
-=======
     def setUp(self):
         self.response = self.client.get('/')
->>>>>>> t1_contact
 
-    def test_root_url_for_template_usage(self):
+    def test_url_for_exist_and_template_usage(self):
         self.assertEquals(self.response.status_code, 200)
 
         self.assertTemplateUsed(self.response, 'base.html')
         self.assertTemplateUsed(self.response, 'home.html')
 
-    def test_root_url_context_for_one_person_object(self):
+    def test_context_for_one_person_object(self):
         persons_in_context = self.response.context['persons']
 
         # only one Person object in context
         self.assertEquals(len(persons_in_context), 1)
 
-    def test_root_url_content_for_my_contacts(self):
+    def test_content_for_my_contacts(self):
         # Person object in content
-<<<<<<< HEAD
-        self.assertIn('Evhen', response.content)
-        self.assertIn('dzh21@tut.by', response.content)
-        self.assertIn('Chernigov region', response.content)
+        self.assertIn('Evhen', self.response.content)
+        self.assertIn('dzh21@tut.by', self.response.content)
+        self.assertIn('Chernigov region', self.response.content)
 
+    def test_for_exist_requests_link(self):
         # test requests link
-        self.assertIn('requests', response.content)
-        response = self.client.get('/requests/')
-        self.assertEquals(response.status_code, 200)
+        self.assertIn('requests', self.response.content)
+        response_for_requests = self.client.get('/requests/')
+        self.assertEquals(response_for_requests.status_code, 200)
 
-    def test_root_url_for_setting_in_context(self):
-        response = self.client.get('/')
-        self.assertEquals(response.status_code, 200)
-
-        settings_in_context = response.context['settings']
+    def test_for_setting_in_context(self):
+        settings_in_context = self.response.context['settings']
 
         self.assertEquals(settings_in_context.USE_TZ, True)
         self.assertEquals(settings_in_context.TIME_ZONE, 'Europe/Minsk')
@@ -51,36 +42,34 @@ class MainViewTest(TestCase):
 
 class RequestsViewTest(TestCase):
 
-    def test_requests_link(self):
-        response = self.client.get('/requests/')
-        self.assertEquals(response.status_code, 200)
+    def setUp(self):
+        # generate requests
+        for i in range(12):
+            self.response = self.client.get('/requests/')
 
-        self.assertTemplateUsed(response, 'requests.html')
-
-        for i in xrange(20):
-            response = self.client.get('/requests/')
-
-        # context
-        requests_in_context = response.context['requests']
-        requests_list = list(requests_in_context)
-        self.assertEquals(len(requests_list), 10)
-
-        first_ten_requests_list = list(RequestObject.objects.order_by(
+    def _get_ten_first_requests_from_db(self):
+        return list(RequestObject.objects.order_by(
             'event_date_time'
         ))[:10]
 
-        self.assertEquals(requests_list, first_ten_requests_list)
+    def test_url_for_exist_and_template_use(self):
+        self.assertEquals(self.response.status_code, 200)
 
-        # content
-        self.assertIn('Request #', response.content)
-        self.assertIn(timezone.localtime(
-            first_ten_requests_list[0].event_date_time
-        ).strftime('%Y-%m-%d %H:%M:%S'), response.content)
-        self.assertIn(timezone.localtime(
-            first_ten_requests_list[9].event_date_time
-        ).strftime('%Y-%m-%d %H:%M:%S'), response.content)
-=======
-        self.assertIn('Evhen', self.response.content)
-        self.assertIn('dzh21@tut.by', self.response.content)
-        self.assertIn('Chernigov region', self.response.content)
->>>>>>> t1_contact
+        self.assertTemplateUsed(self.response, 'requests.html')
+
+    def test_only_ten_first_requests_in_context(self):
+        # context
+        requests_in_context = self.response.context['requests']
+        requests_list = list(requests_in_context)
+        self.assertEquals(len(requests_list), 10)
+
+        self.assertEquals(requests_list, self._get_ten_first_requests_from_db())
+
+    def test_only_ten_first_requests_showing(self):
+        requests_in_db = self._get_ten_first_requests_from_db()
+
+        self.assertIn('Request #', self.response.content)
+        self.assertIn(timezone.localtime(requests_in_db[0].event_date_time)
+            .strftime('%Y-%m-%d %H:%M:%S'), self.response.content)
+        self.assertIn(timezone.localtime(requests_in_db[9].event_date_time)
+            .strftime('%Y-%m-%d %H:%M:%S'), self.response.content)
