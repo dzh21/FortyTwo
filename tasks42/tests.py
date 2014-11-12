@@ -1,6 +1,7 @@
 from django.test import TestCase
 from tasks42.models import RequestObject
 from django.utils import timezone
+from django.conf import settings
 
 
 class MainViewTest(TestCase):
@@ -36,8 +37,7 @@ class MainViewTest(TestCase):
     def test_for_setting_in_context(self):
         settings_in_context = self.response.context['settings']
 
-        self.assertEquals(settings_in_context.USE_TZ, True)
-        self.assertEquals(settings_in_context.TIME_ZONE, 'Europe/Minsk')
+        self.assertEquals(settings_in_context, settings)
 
 
 class RequestsViewTest(TestCase):
