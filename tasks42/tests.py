@@ -52,11 +52,6 @@ class RequestsViewTest(TestCase):
 
         self.assertTemplateUsed(self.response, 'requests.html')
 
-    def test_only_ten_first_requests_in_context(self):
-        # context
-        requests_in_context = self.response.context['requests']
-        self.assertEquals(len(list(requests_in_context)) > 0, True)
-
     def test_only_ten_first_requests_showing(self):
         requests_in_db = list(RequestObject.objects.order_by(
             'event_date_time'
