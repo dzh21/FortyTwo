@@ -1,27 +1,73 @@
 {% extends "base.html" %}
 {% block content %}
-      <div class="row">
+
         <form action="/editcontacts/" method="POST">
           {% csrf_token %}
-        <div class="col-lg-6">
-          <h4>{{ edit_person_form.name.label_tag }} {{ edit_person_form.name }}</h4>
-          <h4>{{ edit_person_form.surname.label_tag }} {{ edit_person_form.surname }}</h4>
-          <h4>{{ edit_person_form.date_of_birth.label_tag }} {{ edit_person_form.date_of_birth }}</h4>
-          <h4>Bio:</h4>
-          <p>{{ persons.0.bio }}</p>
+        <div class="row">
+            <div class="col-lg-2">
+              {{ edit_person_form.name.label_tag }}
+            </div>
+            <div class="col-lg-2">
+              {{ edit_person_form.name }}
+            </div>
+            <div class="col-lg-2">
+              {{ edit_person_form.email.label_tag }}
+            </div>
+            <div class="col-lg-2">
+              {{ edit_person_form.email }}
+            </div>
         </div>
+        <div class="row">
+            <div class="col-lg-2">
+              {{ edit_person_form.surname.label_tag }}
+            </div>
+            <div class="col-lg-2">
+              {{ edit_person_form.surname }}
+            </div>
+            <div class="col-lg-2">
+              {{ edit_person_form.jabber.label_tag }}
+            </div>
+            <div class="col-lg-2">
+              {{ edit_person_form.jabber }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-2">
+              {{ edit_person_form.date_of_birth.label_tag }}
+            </div>
+            <div class="col-lg-2">
+              {{ edit_person_form.date_of_birth }}
+            </div>
+            <div class="col-lg-2">
+              {{ edit_person_form.skype.label_tag }}
+            </div>
+            <div class="col-lg-2">
+              {{ edit_person_form.skype }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-2">
+              Photo:
+            </div>
+            <div class="col-lg-2">
+              ...
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4">
 
-        <div class="col-lg-6">
-          <h4>{{ edit_person_form.email.label_tag }} {{ edit_person_form.email }}</h4>
-          <h4>{{ edit_person_form.jabber.label_tag }} {{ edit_person_form.jabber }}</h4>
-          <h4>{{ edit_person_form.skype.label_tag }} {{ edit_person_form.skype }}</h4>
-          <h4>{{ edit_person_form.other_contacts.label_tag }} <br> {{ edit_person_form.other_contacts }}</h4>
-          <h4>{{ edit_person_form.bio.label_tag }} <br> {{ edit_person_form.bio }}</h4>
+            </div>
+            <div class="col-lg-4">
+              {{ edit_person_form.other_contacts.label_tag }}
+              {{ edit_person_form.other_contacts }}
+              {{ edit_person_form.bio.label_tag }}
+              {{ edit_person_form.bio }}
+            </div>
         </div>
 
           <input type="submit" value="Save">
         </form>
-      </div>
+
       <div class="row">
         <div class="col-lg-12">
           <hr>
