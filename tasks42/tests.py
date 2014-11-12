@@ -84,3 +84,6 @@ class EditContactsViewTest(TestCase):
         self.assertEquals(self.response.status_code, 200)
 
         self.assertTemplateUsed(self.response, 'editcontacts.html')
+
+    def test_form_on_page(self):
+        self.assertIn('form', self.response.content)
