@@ -1,6 +1,7 @@
 from django.test import TestCase
 from tasks42.models import RequestObject
 from django.utils import timezone
+from django.conf import settings
 
 
 class MainViewTest(TestCase):
@@ -36,8 +37,7 @@ class MainViewTest(TestCase):
     def test_for_setting_in_context(self):
         settings_in_context = self.response.context['settings']
 
-        self.assertEquals(settings_in_context.USE_TZ, True)
-        self.assertEquals(settings_in_context.TIME_ZONE, 'Europe/Minsk')
+        self.assertEquals(settings_in_context, settings)
 
 
 class RequestsViewTest(TestCase):
@@ -47,26 +47,15 @@ class RequestsViewTest(TestCase):
         for i in range(12):
             self.response = self.client.get('/requests/')
 
-    def _get_ten_first_requests_from_db(self):
-        return list(RequestObject.objects.order_by(
-            'event_date_time'
-        ))[:10]
-
     def test_url_for_exist_and_template_use(self):
         self.assertEquals(self.response.status_code, 200)
 
         self.assertTemplateUsed(self.response, 'requests.html')
 
-    def test_only_ten_first_requests_in_context(self):
-        # context
-        requests_in_context = self.response.context['requests']
-        requests_list = list(requests_in_context)
-        self.assertEquals(len(requests_list), 10)
-
-        self.assertEquals(requests_list, self._get_ten_first_requests_from_db())
-
     def test_only_ten_first_requests_showing(self):
-        requests_in_db = self._get_ten_first_requests_from_db()
+        requests_in_db = list(RequestObject.objects.order_by(
+            'event_date_time'
+        ))[:10]
 
         self.assertIn('Request #', self.response.content)
         self.assertIn(timezone.localtime(requests_in_db[0].event_date_time)
