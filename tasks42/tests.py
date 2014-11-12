@@ -1,7 +1,9 @@
 from django.test import TestCase
-from tasks42.models import RequestObject
 from django.utils import timezone
 from django.conf import settings
+
+from tasks42.models import RequestObject, Person
+from tasks42.forms import PersonForm
 
 
 class MainViewTest(TestCase):
@@ -74,5 +76,17 @@ class EditContactsViewTest(TestCase):
 
         self.assertTemplateUsed(self.response, 'editcontacts.html')
 
-    def test_form_on_page(self):
+    def test_form_with_contacts_on_page(self):
         self.assertIn('form', self.response.content)
+
+        self.assertIn('Evhen', self.response.content)
+        self.assertIn('dzh21@tut.by', self.response.content)
+        self.assertIn('Chernigov region', self.response.content)
+
+    def test_form_for_save_changes(self):
+        person = Person.objects.get(pk=1)
+        form = PersonForm(instance=person)
+        saved_person = form.save()
+
+        self.assertIn(saved_person.surname, self.response.content)
+
