@@ -15,12 +15,16 @@ def requests(request):
 
 
 def editcontacts(request):
+    person = Person.objects.get(pk=1)
+    context = {}
+
     if request.method == "POST":
-        form = PersonForm(request.POST)
+        form = PersonForm(request.POST, instance=person)
         if form.is_valid():
+            form.save()
             return HttpResponseRedirect('/')
     else:
-        person = Person.objects.get(pk=1)
         form = PersonForm(instance=person)
         context = {'edit_person_form': form}
+
     return render(request, "editcontacts.html", context)

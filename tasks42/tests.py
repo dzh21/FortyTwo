@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.utils import timezone
 from django.conf import settings
+from django.forms.models import model_to_dict
 
 from tasks42.models import RequestObject, Person
 from tasks42.forms import PersonForm
@@ -78,15 +79,24 @@ class EditContactsViewTest(TestCase):
 
     def test_form_with_contacts_on_page(self):
         self.assertIn('form', self.response.content)
+        self.assertIn('value="Save"', self.response.content)
 
-        self.assertIn('Evhen', self.response.content)
-        self.assertIn('dzh21@tut.by', self.response.content)
-        self.assertIn('Chernigov region', self.response.content)
+        self.assertIn('value="Evhen"', self.response.content)
+        self.assertIn('value="dzh21@tut.by"', self.response.content)
+        self.assertIn('value="dzh@default.rs"', self.response.content)
 
-    def test_form_for_save_changes(self):
+    def test_form_for_saving_data(self):
         person = Person.objects.get(pk=1)
-        form = PersonForm(instance=person)
-        saved_person = form.save()
+        person.email = 'newemail@gmail.com'
 
-        self.assertIn(saved_person.surname, self.response.content)
+        form = PersonForm(model_to_dict(person), instance=person)
+        self.assertEquals(form.is_valid(), True)
 
+        response = self.client.post(
+            '/editcontacts/',
+            form.cleaned_data,
+            follow=True
+        )
+        self.assertEquals(response.status_code, 200)
+
+        self.assertIn('newemail@gmail.com', response.content)
