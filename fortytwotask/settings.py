@@ -52,6 +52,7 @@ MIDDLEWARE_CLASSES = (
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.media',
     'tasks42.context_processors.add_settings_to_context',
 )
 
@@ -95,3 +96,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
 )
+
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

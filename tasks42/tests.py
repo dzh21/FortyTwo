@@ -44,8 +44,11 @@ class MainViewTest(TestCase):
 
     def test_for_editcontacts_link(self):
         self.assertIn('Login', self.response.content)
-        login_page = self.client.get('/editcontacts/', follow=True)
-        self.assertEquals(login_page.status_code, 200)
+        edit_page = self.client.get('/editcontacts/', follow=True)
+        self.assertEquals(edit_page.status_code, 200)
+
+    def test_photo_exist(self):
+        self.assertIn('<img src=', self.response.content)
 
 
 class RequestsViewTest(TestCase):

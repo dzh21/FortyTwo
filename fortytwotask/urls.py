@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, include, url
+from django.conf import settings
 
 from django.contrib import admin
 admin.autodiscover()
@@ -17,5 +18,8 @@ urlpatterns = patterns('',
     }),
     url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', {
         'next_page': 'tasks42.views.index'
+    }),
+    (r'^media/(?P<path>.*)$', 'django.views.static.serve', {
+        'document_root': settings.MEDIA_ROOT
     }),
 )
