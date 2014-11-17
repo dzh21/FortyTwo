@@ -12,4 +12,10 @@ urlpatterns = patterns('',
     url(r'^requests/', 'tasks42.views.requests'),
     url(r'^editcontacts/', 'tasks42.views.editcontacts'),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^accounts/login/$', 'django.contrib.auth.views.login', {
+        'template_name': 'login.html',
+    }),
+    url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', {
+        'next_page': 'tasks42.views.index'
+    }),
 )
