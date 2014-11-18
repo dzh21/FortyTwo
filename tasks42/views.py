@@ -24,7 +24,8 @@ def editcontacts(request):
         form = PersonForm(request.POST, request.FILES, instance=person)
         if form.is_valid():
             ob = form.save()
-            resize_photo(ob.photo)
+            if ob.photo:
+                resize_photo(ob.photo)
             return HttpResponseRedirect('/')
     else:
         form = PersonForm(instance=person)
