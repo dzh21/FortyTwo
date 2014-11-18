@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 
-        <form action="/editcontacts/" method="POST">
+        <form action="/editcontacts/" method="POST" enctype="multipart/form-data" >
           {% csrf_token %}
         <div class="row">
             <div class="col-lg-2">
@@ -46,16 +46,13 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-2">
-              {{ edit_person_form.photo.label_tag }}
-            </div>
-            <div class="col-lg-2">
-              {{ edit_person_form.photo }}
-            </div>
+
         </div>
         <div class="row">
             <div class="col-lg-4">
-
+              <label for="{{ edit_person_form.photo.id_for_label }}">{{ edit_person_form.photo.label }}:</label>
+              <input type="file" name="{{ edit_person_form.photo.html_name }}" id="{{ edit_person_form.photo.id_for_label }}" />
+              <img src="{{ settings.MEDIA_URL }}{{ edit_person_form.photo.value }}" />
             </div>
             <div class="col-lg-4">
               {{ edit_person_form.other_contacts.label_tag }}
