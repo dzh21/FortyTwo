@@ -42,9 +42,9 @@ class MainViewTest(TestCase):
 
         self.assertEquals(settings_in_context, settings)
 
-    def test_for_editcontacts_link(self):
+    def test_for_edit_contacts_link(self):
         self.assertIn('Login', self.response.content)
-        edit_page = self.client.get('/editcontacts/', follow=True)
+        edit_page = self.client.get('/edit_contacts/', follow=True)
         self.assertEquals(edit_page.status_code, 200)
 
     def test_photo_exist(self):
@@ -88,12 +88,12 @@ class EditContactsViewTest(TestCase):
             follow=True
         )
         self.assertEquals(self.response.context['user'].is_active, True)
-        self.response = self.client.get('/editcontacts/')
+        self.response = self.client.get('/edit_contacts/')
 
     def test_exist_and_using_template(self):
         self.assertEquals(self.response.status_code, 200)
 
-        self.assertTemplateUsed(self.response, 'editcontacts.html')
+        self.assertTemplateUsed(self.response, 'edit_contacts.html')
 
     def test_form_with_contacts_on_page(self):
         self.assertIn('form', self.response.content)
@@ -111,7 +111,7 @@ class EditContactsViewTest(TestCase):
         self.assertEquals(form.is_valid(), True)
 
         response = self.client.post(
-            '/editcontacts/',
+            '/edit_contacts/',
             form.cleaned_data,
             follow=True
         )

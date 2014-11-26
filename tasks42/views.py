@@ -16,7 +16,7 @@ def requests(request):
 
 
 @login_required
-def editcontacts(request):
+def edit_contacts(request):
     person = Person.objects.get(pk=1)
     context = {}
 
@@ -31,7 +31,7 @@ def editcontacts(request):
         form = PersonForm(instance=person)
         context = {'edit_person_form': form}
 
-    return render(request, "editcontacts.html", context)
+    return render(request, "edit_contacts.html", context)
 
 
 def resize_photo(img):

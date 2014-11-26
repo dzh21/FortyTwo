@@ -11,7 +11,7 @@ urlpatterns = patterns('',
 
     url(r'^$', include('tasks42.urls')),
     url(r'^requests/', 'tasks42.views.requests'),
-    url(r'^editcontacts/', 'tasks42.views.editcontacts'),
+    url(r'^edit_contacts/', 'tasks42.views.edit_contacts'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/login/$', 'django.contrib.auth.views.login', {
         'template_name': 'login.html',
