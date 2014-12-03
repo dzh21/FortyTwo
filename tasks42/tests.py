@@ -117,4 +117,11 @@ class EditContactsViewTest(TestCase):
         )
         self.assertEquals(response.status_code, 200)
 
-        self.assertIn('newemail@gmail.com', response.content)
+        self.assertIn('Changes have been saved', response.content)
+
+
+class TemplateTagsTest(TestCase):
+
+    def test_edit_link_template_tag(self):
+        self.response = self.client.get('/')
+        self.assertIn('>Edit<', self.response.content)

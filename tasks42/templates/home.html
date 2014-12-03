@@ -1,7 +1,9 @@
 {% extends "base.html" %}
+{% load tasks42_extras %}
 {% block content %}
       <div class="row">
         <div class="col-lg-1 col-lg-offset-11">
+           <a href="{% edit_link persons.0 %}">Edit</a>
            <a href="{% url 'tasks42.views.edit_contacts' %}">Login</a>
         </div>
       </div>
