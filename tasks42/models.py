@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models.signals import post_save, post_delete
+from django.utils import timezone
 
 
 class Person(models.Model):
@@ -23,3 +25,35 @@ class RequestObject(models.Model):
 
     def __unicode__(self):
         return "Request #" + str(self.id)
+
+
+class OperationOnModels(models.Model):
+    date_time = models.DateTimeField()
+    operation = models.CharField(max_length=20)
+    model_name = models.CharField(max_length=20)
+
+
+def signal_save_update_callback(sender, **kwargs):
+    # print "%s %s" % (kwargs['created'] and "creation " or "editing ", sender.__name__)
+
+    if sender.__name__ != 'OperationOnModels':
+        op = OperationOnModels()
+        op.date_time = timezone.now()
+        op.operation = kwargs['created'] and "creation" or "editing"
+        op.model_name = sender.__name__
+        op.save()
+
+
+def signal_delete_callback(sender, **kwargs):
+    # print "deletion %s" % sender.__name__
+
+    if sender.__name__ != 'OperationOnModels':
+        op = OperationOnModels()
+        op.date_time = timezone.now()
+        op.operation = "deletion"
+        op.model_name = sender.__name__
+        op.save()
+
+
+post_save.connect(signal_save_update_callback)
+post_delete.connect(signal_delete_callback)

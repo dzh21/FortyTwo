@@ -8,7 +8,7 @@ class Migration(DataMigration):
 
     def forwards(self, orm):
         "Write your forwards methods here."
-        # Note: Don't use "from appname.models import ModelName".
+        # Note: Don't use "from appname.models import ModelName". 
         # Use orm.ModelName to refer to models in this application,
         # and orm['appname.ModelName'] for models in other applications.
         from django.core.management import call_command
@@ -18,6 +18,13 @@ class Migration(DataMigration):
         "Write your backwards methods here."
 
     models = {
+        u'tasks42.operationonmodels': {
+            'Meta': {'object_name': 'OperationOnModels'},
+            'date_time': ('django.db.models.fields.DateTimeField', [], {}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'model_name': ('django.db.models.fields.CharField', [], {'max_length': '20'}),
+            'operation': ('django.db.models.fields.CharField', [], {'max_length': '20'})
+        },
         u'tasks42.person': {
             'Meta': {'object_name': 'Person'},
             'bio': ('django.db.models.fields.TextField', [], {}),
@@ -27,7 +34,7 @@ class Migration(DataMigration):
             'jabber': ('django.db.models.fields.EmailField', [], {'max_length': '75'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
             'other_contacts': ('django.db.models.fields.TextField', [], {}),
-            'photo': ('django.db.models.fields.files.FileField', [], {'max_length': '100'}),
+            'photo': ('django.db.models.fields.files.FileField', [], {'max_length': '100', 'blank': 'True'}),
             'skype': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
             'surname': ('django.db.models.fields.CharField', [], {'max_length': '50'})
         },
